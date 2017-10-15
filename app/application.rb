@@ -20,7 +20,7 @@ class Application
      # '--ignore-ssl-errors=true', '--ssl-protocol=tlsv1'
      # if Capybara.default_driver != :poltergeist
         puts 'new driver'
-        Capybara.register_driver(:poltergeist) { |app| Capybara::Poltergeist::Driver.new(app, js_errors: false, debug: true, phantomjs_options: ['--debug=true', '--load-images=true', '--disk-cache=true', '--ssl-protocol=any'] ) }
+        Capybara.register_driver(:poltergeist) { |app| Capybara::Poltergeist::Driver.new(app, js_errors: false, debug: false, phantomjs_options: ['--debug=false', '--load-images=true', '--disk-cache=true', '--ssl-protocol=any'] ) }
         Capybara.default_driver = :poltergeist
     # end
 
@@ -35,60 +35,60 @@ class Application
     
 
     # url = 'https://avis.com'
-    # url = 'http://avis.com/en/locations/us/ca/oceanside/ocn'
-    url = 'https://www.avis.com/en/reservation#/oneclick?PICKUP_YEAR=2017&PICKUP_MONTH=09&PICKUP_DAY=16&PICKUP_HOUR=4&PICKUP_MINUTE=0&PICKUP_AM_PM=PM&RETURN_YEAR=2017&PICKUP_LOCATION_CODE=OCN&RETURN_MONTH=09&RETURN_DAY=17&RETURN_HOUR=12&RETURN_MINUTE=0&RETURN_AM_PM=PM&RETURN_LOCATION_CODE=OCN&COUNTRY_OF_RESIDENCE_CODE=US&STEP_CODE=3&AWD_NUMBER=S754600&ARCIATA=0158502L'
+    url = 'http://avis.com/en/locations/us/ca/oceanside/ocn'
+    # url = 'https://www.hertz.com'
     # url = 'https://avis.com/etc/designs/avis/clientlib/images/favicon.png'
     # url = 'https://www.avis.com.au/en/home'
     page.visit url
     # puts page.driver.network_traffic.inspect
 
-    # Capybara.using_wait_time(120) { page.body.include?('Select My Car') }
-    # sleep(0.1)
+    Capybara.using_wait_time(120) { page.body.include?('Select My Car') }
+    sleep(0.1)
 
-    # # page.find('close-icon-black').click if page.body.include? 'close-icon-black pull-right gap-btwn-two-close'
+    # page.find('close-icon-black').click if page.body.include? 'close-icon-black pull-right gap-btwn-two-close'
 
-    # # if page.body.include? 'modal-backdrop'
-    # #     page.visit url 
-    # #     Capybara.using_wait_time(120) { page.body.include?('Select My Car') }
-    # # end
+    # if page.body.include? 'modal-backdrop'
+    #     page.visit url 
+    #     Capybara.using_wait_time(120) { page.body.include?('Select My Car') }
+    # end
 
 
-    # # element = page.find('input[id=PicLoc_value]')
-    # # element.click
-    # # 100.times { element.native.send_key(:backspace) }
-    # # element.native.send_key('OCN')
-    # # sleep(1)
-    # # element.native.send_key(:Down)
-    # # element.native.send_key(:Enter)
-    # # sleep(0.1)
-
-    # element = page.find('input[id=from]').click
-    # # sleep(0.1)
-    # 10.times { element.native.send_key(:backspace) }
-    # element.native.send_key(req.params['pickup'])
-    # puts 'pickup'
-    # # element.native.send_key('12/01/2017')
-    # # sleep(0.1)
-    # element = page.find('input[id=to]')
+    # element = page.find('input[id=PicLoc_value]')
     # element.click
-    # puts 'id=to'
+    # 100.times { element.native.send_key(:backspace) }
+    # element.native.send_key('OCN')
+    # sleep(1)
+    # element.native.send_key(:Down)
+    # element.native.send_key(:Enter)
     # sleep(0.1)
-    # 10.times { element.native.send_key(:backspace) }
-    # # element.native.send_key('12/03/2017')
-    # element.native.send_key(req.params['dropoff'])
-    # puts 'dropoff'
+
+    element = page.find('input[id=from]').click
     # sleep(0.1)
-    # page.find('div[title="Discount Codes"]').click
-    # puts 'discount codes'
-    # # sleep(0.1)
-    # # page.find('input[id=awd]').native.send_key('A359807')
-    # page.find('input[id=awd]').native.send_key(req.params['awd'])
-    # # sleep(0.1)
-    # puts "awd entered"
-    # # page.find('input[id=coupon]').native.send_key('A359807')
-    # # sleep(0.1)
-    # page.find('button[id="res-home-select-car"]').click
-    # puts 'select car pressed'
+    10.times { element.native.send_key(:backspace) }
+    element.native.send_key(req.params['pickup'])
+    puts 'pickup'
+    # element.native.send_key('12/01/2017')
+    # sleep(0.1)
+    element = page.find('input[id=to]')
+    element.click
+    puts 'id=to'
+    sleep(0.1)
+    10.times { element.native.send_key(:backspace) }
+    # element.native.send_key('12/03/2017')
+    element.native.send_key(req.params['dropoff'])
+    puts 'dropoff'
+    sleep(0.1)
+    page.find('div[title="Discount Codes"]').click
+    puts 'discount codes'
+    # sleep(0.1)
+    # page.find('input[id=awd]').native.send_key('A359807')
+    page.find('input[id=awd]').native.send_key(req.params['awd'])
+    # sleep(0.1)
+    puts "awd entered"
+    # page.find('input[id=coupon]').native.send_key('A359807')
+    # sleep(0.1)
+    page.find('button[id="res-home-select-car"]').click
+    puts 'select car pressed'
   
 
     # Capybara.using_wait_time(120) { page.body.include?('currency') }
