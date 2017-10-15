@@ -14,14 +14,9 @@ class Application
     resp = Rack::Response.new
     req = Rack::Request.new(env)
 
-    # puts params.length
-    # puts params[:dropoff]
+    Capybara.register_driver(:poltergeist) { |app| Capybara::Poltergeist::Driver.new(app, js_errors: false, debug: false, phantomjs_options: ['--debug=false', '--load-images=true', '--disk-cache=true', '--ssl-protocol=any'] ) }
+    Capybara.default_driver = :poltergeist
 
-     # '--ignore-ssl-errors=true', '--ssl-protocol=tlsv1'
-     # if Capybara.default_driver != :poltergeist
-        Capybara.register_driver(:poltergeist) { |app| Capybara::Poltergeist::Driver.new(app, js_errors: false, debug: false, phantomjs_options: ['--debug=false', '--load-images=true', '--disk-cache=true', '--ssl-protocol=any'] ) }
-        Capybara.default_driver = :poltergeist
-    # end
     page = Capybara::Session.new(:poltergeist)
     # page = Capybara.current_session # if !page
     page.driver.headers = { 'User-Agent' => 'Mozilla/5.0 (iPhone; U; CPU iPhone OS 5_0 like Mac OS X) AppleWebKit/534.46 (KHTML, like Gecko) Mobile/9A334 Safari/7534.48.3' }
