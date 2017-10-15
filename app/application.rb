@@ -14,11 +14,16 @@ class Application
     resp = Rack::Response.new
     req = Rack::Request.new(env)
 
-    Capybara.register_driver(:poltergeist) { |app| Capybara::Poltergeist::Driver.new(app, js_errors: false, debug: false, phantomjs_options: ['--debug=false', '--load-images=true', '--disk-cache=true', '--ssl-protocol=any'] ) }
-    Capybara.default_driver = :poltergeist
+    # puts params.length
+    # puts params[:dropoff]
 
-    page = Capybara::Session.new(:poltergeist)
-    # page = Capybara.current_session # if !page
+     # '--ignore-ssl-errors=true', '--ssl-protocol=tlsv1'
+     # if Capybara.default_driver != :poltergeist
+        Capybara.register_driver(:poltergeist) { |app| Capybara::Poltergeist::Driver.new(app, js_errors: false, debug: false, phantomjs_options: ['--debug=false', '--load-images=true', '--disk-cache=true', '--ssl-protocol=any'] ) }
+        Capybara.default_driver = :poltergeist
+    # end
+
+    page = Capybara.current_session # if !page
     page.driver.headers = { 'User-Agent' => 'Mozilla/5.0 (iPhone; U; CPU iPhone OS 5_0 like Mac OS X) AppleWebKit/534.46 (KHTML, like Gecko) Mobile/9A334 Safari/7534.48.3' }
     # page.driver.headers = { 'User-Agent' => 'Mozilla/5.0 (Windows NT 6.1) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/41.0.2228.0 Safari/537.36' }
     # page.driver.headers = { 'User-Agent' => 'Mozilla/5.0 (Macintosh; Intel Mac OS X 10_9_3) AppleWebKit/537.75.14 (KHTML, like Gecko) Version/7.0.3 Safari/7046A194A' }
@@ -109,8 +114,8 @@ class Application
         attrs[:car] = div.css('p.similar-car')[0].text.strip.chomp(" or Similar")
         results << attrs
     end
-    page.driver.quit
-    # page.reset!
+
+    page.reset!
     # page.execute_script "window.close();"
     # page.open_new_window
     # page.clearMemoryCache
