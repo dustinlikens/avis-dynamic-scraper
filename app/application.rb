@@ -14,8 +14,6 @@ class Application
     resp = Rack::Response.new
     req = Rack::Request.new(env)
 
-    # puts params.length
-    # puts params[:dropoff]
 
      # '--ignore-ssl-errors=true', '--ssl-protocol=tlsv1'
      # if Capybara.default_driver != :poltergeist
