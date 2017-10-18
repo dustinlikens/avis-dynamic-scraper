@@ -29,7 +29,7 @@ class Application
     # page.driver.browser.url_blacklist = ['https://cm.g.doubleclick.net', 'http://doubleclick.net', 'https://doubleclick.net', 'https://www.enterprise.com/etc/designs/ecom/dist/fonts/', 'https://cdnssl.clicktale.net', 'https://static.ads-twitter.com', 'https://developers.google.com', 'https://maps.googleapis.com', 'https://www.googleadservices.com']
     # page.driver.browser.url_whitelist = ['https://avis.com']
     # page.driver.browser.url_blacklist = ['https://avis.com/etc/designs/avis/clientlib/images/favicon.png']
-    page.driver.browser.url_blacklist = ['https://www.facebook.com','https://www.avis.com/content/', 'https://www.avis.com/content/dam/avis/na/us/common/campaigns/']
+    page.driver.browser.url_blacklist = ['https://www.avis.com/content/dam/avis/na/us/common/offers/monument-valley-hp-2440x1000.jpg/jcr:content/renditions/cq5dam.web.375.375.jpg', 'https://www.avis.com/content/dam/avis/na/us/common/offers/monument-valley-hp-2440x1000.jpg', 'https://www.facebook.com','https://www.avis.com/content/', 'https://www.avis.com/content/dam/avis/na/us/common/campaigns/']
 
     # url = 'https://avis.com'
     url = 'http://avis.com/en/locations/us/ca/oceanside/ocn'
