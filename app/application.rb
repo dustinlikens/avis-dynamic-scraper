@@ -11,17 +11,16 @@ require 'json'
 
 class Application
   def call(env)
+    t1 = Time.now
     resp = Rack::Response.new
     req = Rack::Request.new(env)
 
-
-     # '--ignore-ssl-errors=true', '--ssl-protocol=tlsv1'
-     # if Capybara.default_driver != :poltergeist
         Capybara.register_driver(:poltergeist) { |app| Capybara::Poltergeist::Driver.new(app, js_errors: false, debug: false, phantomjs_options: ['--debug=false', '--load-images=true', '--disk-cache=true', '--ssl-protocol=any'] ) }
         Capybara.default_driver = :poltergeist
-    # end
 
+    puts 'initializing new session'
     page = Capybara::Session.new(:poltergeist)
+    puts 'session created'
     # page = Capybara.current_session # if !page
     page.driver.headers = { 'User-Agent' => 'Mozilla/5.0 (iPhone; U; CPU iPhone OS 5_0 like Mac OS X) AppleWebKit/534.46 (KHTML, like Gecko) Mobile/9A334 Safari/7534.48.3' }
     # page.driver.headers = { 'User-Agent' => 'Mozilla/5.0 (Windows NT 6.1) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/41.0.2228.0 Safari/537.36' }
@@ -30,17 +29,19 @@ class Application
     # page.driver.browser.url_blacklist = ['https://cm.g.doubleclick.net', 'http://doubleclick.net', 'https://doubleclick.net', 'https://www.enterprise.com/etc/designs/ecom/dist/fonts/', 'https://cdnssl.clicktale.net', 'https://static.ads-twitter.com', 'https://developers.google.com', 'https://maps.googleapis.com', 'https://www.googleadservices.com']
     # page.driver.browser.url_whitelist = ['https://avis.com']
     # page.driver.browser.url_blacklist = ['https://avis.com/etc/designs/avis/clientlib/images/favicon.png']
-    
+    page.driver.browser.url_blacklist = ['https://www.facebook.com','https://www.avis.com/content/', 'https://www.avis.com/content/dam/avis/na/us/common/campaigns/']
 
     # url = 'https://avis.com'
     url = 'http://avis.com/en/locations/us/ca/oceanside/ocn'
     # url = 'https://www.hertz.com'
     # url = 'https://avis.com/etc/designs/avis/clientlib/images/favicon.png'
     # url = 'https://www.avis.com.au/en/home'
+    puts 'loading first page'
     page.visit url
     # puts page.driver.network_traffic.inspect
 
     Capybara.using_wait_time(120) { page.body.include?('Select My Car') }
+    puts 'first page loaded'
     sleep(0.1)
 
     # page.find('close-icon-black').click if page.body.include? 'close-icon-black pull-right gap-btwn-two-close'
@@ -119,6 +120,9 @@ class Application
     # page.open_new_window
     # page.clearMemoryCache
     # results.to_json
+    t2 = Time.now
+    delta = t2 - t1
+    puts delta
     resp.write results.to_json
     resp.finish
   end
