@@ -17,7 +17,7 @@ class Application
     resp = Rack::Response.new
     req = Rack::Request.new(env)
 
-    Capybara.register_driver(:poltergeist) { |app| Capybara::Poltergeist::Driver.new(app, js_errors: false, debug: false, phantomjs_options: ['--debug=false', '--load-images=true', '--disk-cache=false', '--ssl-protocol=any'] ) }
+    Capybara.register_driver(:poltergeist) { |app| Capybara::Poltergeist::Driver.new(app, js_errors: false, debug: false, phantomjs_options: ['--debug=false', '--load-images=false', '--disk-cache=false', '--ssl-protocol=any'] ) }
     Capybara.default_driver = :poltergeist
 
     puts 'initializing new session'
@@ -135,11 +135,11 @@ class Application
     # puts 'select car pressed'
   
 
-    Capybara.using_wait_time(120) { page.body.include?('currency') }
+    Capybara.using_wait_time(120) { page.body.include?('or similar') }
     # while !page.body.include?('currency') do 
     #     # puts "loading results"
     # end
-    # # sleep(0.1)
+    sleep(0.5)
     # # puts page.body
 
     noko = Nokogiri::HTML(page.body)
@@ -158,7 +158,10 @@ class Application
         attrs[:amount] = div.css('p.payamntr')[0].text.gsub('$', '')
         attrs[:car] = div.css('p.similar-car')[0].text.strip.chomp(" or Similar")
         results << attrs
+
     end
+
+    puts page.body if results.count == 0
 
     page.driver.quit
     # page.execute_script "window.close();"
